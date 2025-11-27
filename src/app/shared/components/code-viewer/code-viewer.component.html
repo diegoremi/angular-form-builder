@@ -1,0 +1,13 @@
+<div class="code-viewer">
+  <div class="code-header">
+    <span class="file-name">{{ fileName }}</span>
+    <button
+      class="copy-button"
+      (click)="copyToClipboard()"
+      [class.copied]="copyButtonText === 'Copiado!'"
+    >
+      {{ copyButtonText }}
+    </button>
+  </div>
+  <pre class="code-content"><code>{{ code }}</code></pre>
+</div>

@@ -1,0 +1,100 @@
+<div class="builder-page">
+  <header class="page-header">
+    <h1>Angular Form Builder</h1>
+    <p>Genera código TypeScript y HTML desde un JSON Schema</p>
+  </header>
+
+  <div class="builder-container">
+    <!-- Panel izquierdo: Input -->
+    <div class="left-panel">
+      <section class="options-section">
+        <h2>Opciones</h2>
+        <form [formGroup]="optionsForm" class="options-form">
+          <div class="form-group">
+            <label for="modelName">Nombre del Modelo/Interface</label>
+            <input
+              id="modelName"
+              type="text"
+              formControlName="modelName"
+              placeholder="Ej: User"
+            />
+          </div>
+          <div class="form-group">
+            <label for="formName">Nombre del Formulario</label>
+            <input
+              id="formName"
+              type="text"
+              formControlName="formName"
+              placeholder="Ej: userForm"
+            />
+          </div>
+        </form>
+      </section>
+
+      <section class="json-section">
+        <div class="section-header">
+          <h2>JSON Schema</h2>
+          <button class="btn-secondary" (click)="loadExample()">
+            Cargar Ejemplo
+          </button>
+        </div>
+        <app-json-editor
+          [(value)]="jsonInput"
+          [placeholder]="'Pega tu JSON Schema aquí...'"
+        ></app-json-editor>
+      </section>
+
+      <section class="actions-section">
+        <button
+          class="btn-primary"
+          (click)="generateCode()"
+          [disabled]="!optionsForm.valid || !jsonInput"
+        >
+          Generar Código
+        </button>
+      </section>
+
+      @if (errorMessage) {
+        <section class="error-section">
+          <div class="error-message">
+            <strong>Error:</strong> {{ errorMessage }}
+          </div>
+        </section>
+      }
+    </div>
+
+    <!-- Panel derecho: Output -->
+    <div class="right-panel">
+      @if (generatedCode && codeTabs.length > 0) {
+        <section class="code-section">
+          <h2>Código Generado</h2>
+          <app-tabs
+            [tabs]="codeTabs"
+            [activeTabId]="activeTabId"
+            (tabChange)="onTabChange($event)"
+          >
+            @if (activeTab) {
+              <app-code-viewer
+                [code]="activeTab.content"
+                [fileName]="activeTab.fileName"
+              ></app-code-viewer>
+            }
+          </app-tabs>
+        </section>
+      } @else {
+        <section class="placeholder-section">
+          <div class="placeholder">
+            <h3>Bienvenido al Form Builder</h3>
+            <p>Para empezar:</p>
+            <ol>
+              <li>Haz clic en "Cargar Ejemplo" o pega tu propio JSON Schema</li>
+              <li>Ajusta los nombres del modelo y formulario si es necesario</li>
+              <li>Presiona "Generar Código"</li>
+              <li>Copia el código generado usando los botones de copiar</li>
+            </ol>
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+</div>

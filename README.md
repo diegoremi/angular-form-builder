@@ -1,4 +1,75 @@
-# AngularFormBuilder
+# Angular Form Builder
+
+Una herramienta web que genera código TypeScript y HTML para formularios de Angular a partir de un JSON Schema.
+
+## Descripción
+
+Angular Form Builder es una aplicación que permite a los desarrolladores:
+- Pegar un JSON Schema que describe un formulario
+- Generar automáticamente:
+  - Interface TypeScript del modelo
+  - FormGroup con Reactive Forms y validaciones
+  - Template HTML del formulario
+- Copiar el código generado para usarlo en sus proyectos
+
+## Características MVP 1.0
+
+- Soporte para tipos básicos: `string`, `number`, `boolean`
+- Validación `required` con `Validators.required`
+- Personalización de nombres de modelo y formulario
+- Sistema de tabs para visualizar el código generado
+- Botones de copiar al portapapeles
+- JSON de ejemplo incluido
+- Validación de JSON con mensajes de error claros
+
+## Tecnologías
+
+- Angular 19 (Standalone Components)
+- TypeScript (strict mode)
+- Reactive Forms
+- SCSS
+
+## Ejemplo de JSON Schema
+
+```json
+{
+  "fields": [
+    {
+      "name": "firstName",
+      "type": "string",
+      "required": true,
+      "label": "Nombre",
+      "placeholder": "Ingrese su nombre"
+    },
+    {
+      "name": "age",
+      "type": "number",
+      "required": false,
+      "label": "Edad"
+    },
+    {
+      "name": "isActive",
+      "type": "boolean",
+      "required": false,
+      "label": "Activo"
+    }
+  ]
+}
+```
+
+## Estructura del Proyecto
+
+```
+src/app/
+├── core/
+│   ├── models/           # Interfaces y tipos TypeScript
+│   ├── services/         # Lógica de negocio (parser, generator)
+│   └── utils/            # Funciones helper
+├── shared/
+│   └── components/       # Componentes reutilizables (json-editor, code-viewer, tabs)
+└── pages/
+    └── builder/          # Página principal de la aplicación
+```
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.10.
 

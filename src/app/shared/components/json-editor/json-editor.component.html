@@ -1,0 +1,9 @@
+<div class="json-editor">
+  <textarea
+    [value]="value"
+    (input)="onValueChange($any($event.target).value)"
+    [placeholder]="placeholder"
+    [style.min-height]="minHeight"
+    spellcheck="false"
+  ></textarea>
+</div>
