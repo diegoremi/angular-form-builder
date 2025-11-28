@@ -12,13 +12,23 @@ if (fs.existsSync(envFile)) {
   process.exit(0);
 }
 
-// Get environment variables from Vercel or use defaults
-const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '';
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
+// Get environment variables from Vercel with multiple possible names
+const supabaseUrl =
+  process.env.SUPABASE_URL ||
+  process.env.VITE_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  '';
 
-console.log('🔍 Checking environment variables...');
+const supabaseKey =
+  process.env.SUPABASE_ANON_KEY ||
+  process.env.VITE_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  '';
+
+console.log('🔍 Generating environment.ts for production build...');
+console.log('Available env vars:', Object.keys(process.env).filter(k => k.includes('SUPABASE')));
 console.log('SUPABASE_URL:', supabaseUrl ? '✓ Found' : '✗ Missing');
-console.log('SUPABASE_ANON_KEY:', supabaseKey ? '✓ Found' : '✗ Missing');
+console.log('SUPABASE_ANON_KEY:', supabaseKey ? '✓ Found (length: ' + supabaseKey.length + ')' : '✗ Missing');
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('\n❌ ERROR: Missing required environment variables!');
@@ -26,6 +36,7 @@ if (!supabaseUrl || !supabaseKey) {
   console.error('  - SUPABASE_URL');
   console.error('  - SUPABASE_ANON_KEY');
   console.error('\nSee VERCEL_SETUP.md for instructions.');
+  console.error('\nDEBUG: All env vars:', Object.keys(process.env).join(', '));
   process.exit(1);
 }
 
