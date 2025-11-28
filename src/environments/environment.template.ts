@@ -1,15 +1,13 @@
 /**
  * Environment configuration template for development
  *
- * INSTRUCTIONS:
- * 1. Copy this file to environment.ts
- * 2. Replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY with your actual values
- * 3. Get these values from: Supabase Dashboard > Settings > API
+ * Copy this file to environment.ts and fill in your Supabase credentials
+ * File: cp environment.template.ts environment.ts
  */
 export const environment = {
   production: false,
   supabase: {
     url: 'YOUR_SUPABASE_URL',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY'
-  }
+    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+  },
 };
