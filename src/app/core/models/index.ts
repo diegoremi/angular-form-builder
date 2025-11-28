@@ -6,3 +6,4 @@
 export * from './field-type.enum';
 export * from './form-schema.model';
 export * from './generated-code.model';
+export * from './saved-schema.model';

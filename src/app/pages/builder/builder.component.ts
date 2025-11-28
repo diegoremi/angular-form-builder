@@ -9,6 +9,8 @@ import { FormSchema, GeneratedCode, CodeTabInfo } from '../../core/models';
 import { JsonEditorComponent } from '../../shared/components/json-editor/json-editor.component';
 import { CodeViewerComponent } from '../../shared/components/code-viewer/code-viewer.component';
 import { TabsComponent } from '../../shared/components/tabs/tabs.component';
+import { SaveSchemaModalComponent } from '../../shared/save-schema-modal/save-schema-modal.component';
+import { SupabaseService } from '../../core/services/supabase.service';
 
 /**
  * Página principal del Form Builder
@@ -21,7 +23,8 @@ import { TabsComponent } from '../../shared/components/tabs/tabs.component';
     ReactiveFormsModule,
     JsonEditorComponent,
     CodeViewerComponent,
-    TabsComponent
+    TabsComponent,
+    SaveSchemaModalComponent
   ],
   templateUrl: './builder.component.html',
   styleUrl: './builder.component.scss'
@@ -47,6 +50,9 @@ export class BuilderComponent implements OnInit {
 
   /** Tab activa */
   activeTabId: string = 'model';
+
+  /** Modal de guardar schema */
+  isModalOpen = false;
 
   /** JSON de ejemplo */
   readonly EXAMPLE_JSON = `{
@@ -82,7 +88,8 @@ export class BuilderComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private schemaParser: SchemaParserService,
-    private codeGenerator: CodeGeneratorService
+    private codeGenerator: CodeGeneratorService,
+    private supabase: SupabaseService
   ) {
     this.optionsForm = this.fb.group({
       modelName: ['User', [Validators.required, Validators.minLength(1)]],
@@ -179,5 +186,39 @@ export class BuilderComponent implements OnInit {
    */
   onTabChange(tabId: string): void {
     this.activeTabId = tabId;
+  }
+
+  /**
+   * Abre el modal para guardar el schema
+   */
+  openSaveModal(): void {
+    // Verificar si el usuario está logueado
+    if (!this.supabase.isAuthenticated) {
+      this.errorMessage = 'Debes iniciar sesión para guardar schemas';
+      return;
+    }
+
+    // Verificar que hay un schema parseado
+    if (!this.parsedSchema) {
+      this.errorMessage = 'Primero genera un schema para poder guardarlo';
+      return;
+    }
+
+    this.isModalOpen = true;
+  }
+
+  /**
+   * Cierra el modal
+   */
+  closeModal(): void {
+    this.isModalOpen = false;
+  }
+
+  /**
+   * Maneja el evento cuando se guarda exitosamente
+   */
+  onSchemaSaved(): void {
+    // Opcional: mostrar mensaje de éxito, redirigir, etc.
+    console.log('Schema guardado exitosamente');
   }
 }

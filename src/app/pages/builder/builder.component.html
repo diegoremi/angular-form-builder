@@ -52,6 +52,13 @@
         >
           Generar Código
         </button>
+        <button
+          class="btn-save"
+          (click)="openSaveModal()"
+          [disabled]="!parsedSchema"
+        >
+          Guardar Schema
+        </button>
       </section>
 
       @if (errorMessage) {
@@ -98,3 +105,11 @@
     </div>
   </div>
 </div>
+
+<!-- Save Schema Modal -->
+<app-save-schema-modal
+  [schema]="parsedSchema!"
+  [isOpen]="isModalOpen"
+  (close)="closeModal()"
+  (saved)="onSchemaSaved()"
+></app-save-schema-modal>

@@ -1,0 +1,94 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Guardar Schema</h2>
+        <button class="close-btn" (click)="onClose()">&times;</button>
+      </div>
+
+      <form [formGroup]="saveForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">Nombre *</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              placeholder="Ej: Formulario de Contacto"
+              [class.error]="name?.invalid && name?.touched"
+            />
+            @if (name?.invalid && name?.touched) {
+              <span class="error-message">
+                @if (name?.errors?.['required']) {
+                  El nombre es requerido
+                }
+                @if (name?.errors?.['minlength']) {
+                  Mínimo 3 caracteres
+                }
+              </span>
+            }
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea
+              id="description"
+              formControlName="description"
+              placeholder="Describe tu schema (opcional)"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Is Public -->
+          <div class="form-group checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                formControlName="is_public"
+              />
+              <span>Hacer público (otros usuarios podrán verlo)</span>
+            </label>
+          </div>
+
+          <!-- Success message -->
+          @if (successMessage) {
+            <div class="alert alert-success">
+              {{ successMessage }}
+            </div>
+          }
+
+          <!-- Error message -->
+          @if (errorMessage) {
+            <div class="alert alert-error">
+              {{ errorMessage }}
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onClose()"
+            [disabled]="isLoading"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saveForm.invalid || isLoading"
+          >
+            @if (isLoading) {
+              Guardando...
+            } @else {
+              Guardar Schema
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
