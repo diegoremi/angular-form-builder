@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a routerLink="/" class="brand-link">Angular Form Builder</a>
+    </div>
+
+    <div class="navbar-menu">
+      @if (currentUser) {
+        <span class="user-email">{{ currentUser.email }}</span>
+        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+      } @else {
+        <a routerLink="/login" class="btn-link">Iniciar Sesión</a>
+        <a routerLink="/register" class="btn-register">Registrarse</a>
+      }
+    </div>
+  </div>
+</nav>
