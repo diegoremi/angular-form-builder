@@ -1,1 +1,102 @@
-<p>register works!</p>
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>Crear Cuenta</h1>
+      <p class="subtitle">Regístrate en Angular Form Builder</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="tu@email.com"
+            [class.error]="email?.invalid && email?.touched"
+          />
+          @if (email?.invalid && email?.touched) {
+            <span class="error-message">
+              @if (email?.errors?.['required']) {
+                El email es requerido
+              }
+              @if (email?.errors?.['email']) {
+                Ingresa un email válido
+              }
+            </span>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Mínimo 6 caracteres"
+            [class.error]="password?.invalid && password?.touched"
+          />
+          @if (password?.invalid && password?.touched) {
+            <span class="error-message">
+              @if (password?.errors?.['required']) {
+                La contraseña es requerida
+              }
+              @if (password?.errors?.['minlength']) {
+                Mínimo 6 caracteres
+              }
+            </span>
+          }
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Repite tu contraseña"
+            [class.error]="confirmPassword?.invalid && confirmPassword?.touched"
+          />
+          @if (confirmPassword?.invalid && confirmPassword?.touched) {
+            <span class="error-message">
+              Confirma tu contraseña
+            </span>
+          }
+        </div>
+
+        <!-- Success message -->
+        @if (successMessage) {
+          <div class="alert alert-success">
+            {{ successMessage }}
+          </div>
+        }
+
+        <!-- Error general -->
+        @if (errorMessage) {
+          <div class="alert alert-error">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="registerForm.invalid || isLoading"
+        >
+          @if (isLoading) {
+            Creando cuenta...
+          } @else {
+            Crear Cuenta
+          }
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+      </div>
+    </div>
+  </div>
+</div>
